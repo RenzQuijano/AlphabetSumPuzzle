@@ -35,11 +35,16 @@ public class AlphabetSumPuzzle {
     }
     private static int numericalValue(String word, int[] digitValues) {
         int rv = 0;
-        for(char c: word.toCharArray())
-            if(digitValues[c] < 0)//if c is not assigned to any value
+        for(char c: word.toCharArray()) {
+            if (digitValues[c] < 0) {//if c is not assigned to any value
                 return -1;//error
-            else
+            } else {
                 rv = 10 * rv + digitValues[c];
+//                if(rv == 0) { //added check here to see if initial assignment of rv is 0. e.g. THE+BEST+SPOT=SPOTS T,B, and S would be checked if numeric value is zero. If so, return error
+//                    return -1;
+//                }
+            }
+        }
         return rv;
     }
     //THE: 3-digit integer
@@ -65,10 +70,10 @@ public class AlphabetSumPuzzle {
             for(String operand: operands){
                 leftHandSide += numericalValue(operand, digitValues);
             }
-//then calculate the right-hand-side of the equation
+            //then calculate the right-hand-side of the equation
             int rightHandSide = numericalValue(result, digitValues);
-//then, proceed with the following code only if LHS = RHS
-//for extra credits, you should also consider more conditions before moving forward with printing the solutions
+            //then, proceed with the following code only if LHS = RHS
+            //for extra credits, you should also consider more conditions before moving forward with printing the solutions
             if (leftHandSide == rightHandSide) { //prints all true equation mappings
                 for (char variable : variables)
                     System.out.print(variable + ": " + digitValues[variable] + "| ");

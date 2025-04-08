@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.*;
 public class AlphabetSumPuzzle {
     private static ArrayList<Character> variables = new ArrayList<>();//all variables in the puzzle
     private static ArrayList<String>operands = new ArrayList<>();//all sum operands given by keyboard
@@ -40,9 +41,9 @@ public class AlphabetSumPuzzle {
                 return -1;//error
             } else {
                 rv = 10 * rv + digitValues[c];
-//                if(rv == 0) { //added check here to see if initial assignment of rv is 0. e.g. THE+BEST+SPOT=SPOTS T,B, and S would be checked if numeric value is zero. If so, return error
-//                    return -1;
-//                }
+                if(rv == 0) { //added check here to see if initial assignment of rv is 0. e.g. THE+BEST+SPOT=SPOTS T,B, and S would be checked if numeric value is zero. If so, return error
+                    return -1;
+                }
             }
         }
         return rv;
@@ -61,6 +62,7 @@ public class AlphabetSumPuzzle {
                 unassignedVariable = variable;//variable without assignment is stored in the unassignedVariable...
                 break;
             }
+
         if(complete) {//base case
             //do not print all mappings
             //print a mapping only if it satisfies the puzzle
@@ -74,7 +76,8 @@ public class AlphabetSumPuzzle {
             int rightHandSide = numericalValue(result, digitValues);
             //then, proceed with the following code only if LHS = RHS
             //for extra credits, you should also consider more conditions before moving forward with printing the solutions
-            if (leftHandSide == rightHandSide) { //prints all true equation mappings
+
+            if (leftHandSide == rightHandSide && uniqueValueCheck(digitValues)) { //prints all true equation mappings && method check if all characters have unique values to them, eliminating multiple letters assigned to one number
                 for (char variable : variables)
                     System.out.print(variable + ": " + digitValues[variable] + "| ");
                 System.out.println();
@@ -86,5 +89,17 @@ public class AlphabetSumPuzzle {
             }
             digitValues[unassignedVariable] = -1;//assign the unassignedVariable to -1 again
         }
+    }
+
+    private static boolean uniqueValueCheck(int[] digitValues) {
+        HashSet<Integer> digitSet = new HashSet<>();
+        for (int num : digitValues) {
+            if(num != -1) {
+                if(!digitSet.add(num)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
